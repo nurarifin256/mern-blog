@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 const BlogItem = (props) => {
   const history = useHistory();
-  const { title, body, name, image, date } = props;
+  const { title, body, name, image, date, _id } = props;
   return (
     <div className="blog-item">
       <img className="image-thumb" src={image} alt="post" />
@@ -18,7 +18,7 @@ const BlogItem = (props) => {
         <Gap height={20} />
         <Button
           title="View Detail"
-          onClick={() => history.push("/detail-blog")}
+          onClick={() => history.push(`/detail-blog/${_id}`)}
         />
       </div>
     </div>
