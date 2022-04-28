@@ -4,6 +4,9 @@ import "./Home.scss";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setDataBlog } from "../../config/redux/action";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import axios from "axios";
 
 const Home = () => {
   // const [dataBlog, setDataBlog] = useState([]); sebelum menggunakan state global
@@ -29,6 +32,34 @@ const Home = () => {
     setCounter(counter === page.totalPage ? page.totalPage : counter + 1);
   };
 
+  const confirmDelete = (id) => {
+    confirmAlert({
+      title: "Confirm to delete",
+      message: "Apakah anda yakin akan menghapus post ini ?",
+      buttons: [
+        {
+          label: "Ya",
+          // onClick: () => console.log("id : ", id),
+          onClick: () => {
+            axios
+              .delete(`http://localhost:4000/v1/blog/post/${id}`)
+              .then((res) => {
+                console.log("success : ", res.data);
+                dispatch(setDataBlog(counter));
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          },
+        },
+        {
+          label: "Tidak",
+          onClick: () => console.log("user tidak setuju"),
+        },
+      ],
+    });
+  };
+
   return (
     <div className="home-page-wrapper">
       <div className="create-wrapper">
@@ -52,6 +83,7 @@ const Home = () => {
               name={blog.author.name}
               date={blog.createdAt}
               _id={blog._id}
+              onDelete={confirmDelete}
             />
           );
         })}

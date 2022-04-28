@@ -11,7 +11,7 @@ const DetailBlog = (props) => {
     const id = props.match.params.id;
     Axios.get(`http://localhost:4000/v1/blog/post/${id}`)
       .then((res) => {
-        console.log("success: ", res);
+        // console.log("success: ", res);
         setData(res.data.data);
       })
       .catch((err) => {
